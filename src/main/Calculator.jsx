@@ -41,6 +41,7 @@ export default class Calculator extends Component {
                 case '/': result =values[0]/values[1]; break;
                 case '*': result =values[0]*values[1]; break;
                 case '-': result =values[0]-values[1]; break;
+                case '=': result =values[0]; break;
                 default: break;
             }
             
