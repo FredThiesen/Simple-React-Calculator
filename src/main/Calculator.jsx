@@ -43,36 +43,35 @@ export default class Calculator extends Component {
                 case '-': result =values[0]-values[1]; break;
                 case '=': result =values[0]; break;
                 default: break;
-            }
-            
-            
+            }  
             values[0] = result
             values[1] = 0
-
             this.setState({
                 displayValue: values[0],
                 operation: equals ? null : operation,
                 current: equals ? 0 : 1,
                 clearDisplay: !equals,
                 values
-
-
             })
         }
     }
-
+    
     addDigit(n) {
+        let zeroFlag = false
         if (n === '.' && this.state.displayValue.includes('.')){
             return
         }
-
         const clearDisplay = this.state.displayValue === '0'
             || this.state.clearDisplay
-
+        if (n === '0' && this.state.values[1] === 0){
+            this.setState({ ...initialState })
+            zeroFlag = true
+        }
         const currentValue = clearDisplay ? '' : this.state.displayValue
         const displayValue = currentValue + n
+        if(zeroFlag === false){
         this.setState({ displayValue, clearDisplay: false })
-
+        }
         if (n !== '.') {
             const i = this.state.current
             const newValue = parseFloat(displayValue)
@@ -80,10 +79,8 @@ export default class Calculator extends Component {
             values[i] = newValue
             this.setState({ values })
         }
-        
+        zeroFlag = false
     }
-
-
     render( ){
         return (
             <div className="calculator"> 
